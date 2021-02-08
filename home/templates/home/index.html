@@ -1,0 +1,45 @@
+{% load static %}
+
+<link rel='stylesheet' type="text/css" href="{% static 'home/index.css' %}">
+
+<title>Page Number: {{ page_number }}</title>
+
+<h1> Art Blog </h1>
+
+
+{% if error_message %}
+<p><strong>
+    {{ error_message }}
+</p> </strong>
+{% endif %}
+
+{% if posts %}
+  <ul>
+    {% for post in posts%}
+    <li>
+      <h3> {{post.title}} </h3>
+      by <i> {{post.author}} </i> <br />
+      Posted: {{post.date}} <br /><br />
+      {% if post.picture %}
+        <img src="{{post.picture.url}}">
+      {% endif %}
+        <p>{{ post.text }}</p>
+    <hr />
+    </li>
+    {% endfor %}
+  </ul>
+
+  {% if 1 <= page_number and page_number <= pages %}
+    {%if page_number != 1%}
+      <a href="{% url 'home:index' previous %}"> Previous</a>
+    {%endif%}
+    {%if page_number != pages%}
+      <a href="{% url 'home:index' next %}">Next</a>
+    {%endif%}
+  {% endif %}
+
+{% else %}
+
+  <h3> No objects found </h3>
+
+{% endif %}
